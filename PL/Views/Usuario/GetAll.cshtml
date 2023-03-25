@@ -1,0 +1,100 @@
+﻿@model ML.Historial
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h2>Usuario</h2>
+        <br>
+        <h5>En este menu puedes agregar, actualizar y eliminar a los usuarios </h5>
+    </div>
+    <br />
+    <div class="row">
+
+        @using (Html.BeginForm("Superdigito", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="row row-cols-4">
+                <div class="form-group">
+                    <div class="col">
+                        @*@Html.LabelFor(model => model.Nombre)*@
+                        <div class="input-group">
+                            <span class="input-group-text" id="usernameicon"><i class="bi bi-person-circle"></i></span>
+                            @Html.TextBoxFor(model => model.Numero, new { @class = "form-control", @id = "txtNumero", @placeholder="Numero" })
+                              
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col">
+                        @*@Html.LabelFor(model => model.ApellidoPaterno)*@
+                        <div class="input-group">
+                            <span class="input-group-text" id="usernameicon"><i class="bi bi-person-circle"></i></span>
+                            @Html.TextBoxFor(model => model.Resultado, new { @class = "form-control", @id = "txtApellidoPaterno",  @placeholder="Resultado" })
+                        </div>
+
+                    </div>
+                </div>
+
+               
+                <div class="form-group">
+
+                    <div class="col">
+                        @*<center>*@
+                        <button type="submit" value="Calcular" class="btn btn-info"> Calcular </button>
+                        @* </center>*@
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+        <hr>
+
+        <div class="row row-cols-1 ">
+            <div style="text-align: left;" class="col-12 btn-group-lg">
+  
+
+            </div>
+        </div>
+        @if (Model.Historiales != null)
+        {
+            //tabla
+            <table class="table table-bordered table-responsive table-striped" id="tblAlumno">
+                <thead style="background-color: chartreuse">
+                    <tr>
+                        <td class="text-center" style=" font-weight:bold;">Numero</td>
+                        <td class="text-center" style=" font-weight:bold;">Resultado</td>
+                        <td class="text-center" style=" font-weight:bold;">FechaHora</td>
+                        <td class="text-center" style=" font-weight:bold;">Eliminar</td>
+                       
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (ML.Historial historial in Model.Historiales)
+                    {
+                        <tr>
+                            <td>@historial.Numero</td>
+                            <td>@historial.Resultado</td>
+                            <td>@historial.HoraFecha</td>
+                            <td class="text-center"><a class="btn btn-danger" href="@Url.Action("DeleteByIdHistorial", "Usuario", new { IdHistorial = historial.IdHistorial})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"><i class="bi bi-trash-fill"></i></a></td>
+                        </tr>
+                    }
+                    
+                </tbody>
+            </table>
+            <a class="btn btn-danger" href="@Url.Action("DeleteAllByIdUsuario", "Usuario")" onclick="return confirm('Estas seguro que deseas eliminar el historial?');">Borrar Registros</a>
+
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">El usuario no tiene historiales guardados </div>
+        }
+    </div>
+</div>
+
